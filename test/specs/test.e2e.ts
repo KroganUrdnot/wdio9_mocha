@@ -1,15 +1,12 @@
-import { expect } from '@wdio/globals'
-import LoginPage from '../pageobjects/login.page'
-import SecurePage from '../pageobjects/secure.page'
+import LandingPage from "../../src/pageobjects/Landing.page.ts";
+import RegistrationPage from "../../src/pageobjects/Registration.page.ts";
+import {ClientInfo} from "../resourses/clientInfo.ts";
 
-describe('My Login application', () => {
-    it('should login with valid credentials', async () => {
-        await LoginPage.open()
+const paraBank = 'https://parabank.parasoft.com/parabank/index.htm';
 
-        await LoginPage.login('tomsmith', 'SuperSecretPassword!')
-        await expect(SecurePage.flashAlert).toBeExisting()
-        await expect(SecurePage.flashAlert).toHaveText(
-            expect.stringContaining('You logged into a secure area!'))
+describe('Register new client', () => {
+    it('should fill registration form and validate success', async () => {
+        await LandingPage.open(paraBank);
+        await RegistrationPage.registerNewClient(ClientInfo);
     })
 })
-

@@ -1,3 +1,5 @@
+import {Reporter} from "./src/testutils/Reporter.ts";
+
 export const config: WebdriverIO.Config = {
     //
     // ====================
@@ -62,7 +64,7 @@ export const config: WebdriverIO.Config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'error',
     //
     // Set specific log levels per logger
     // loggers:
@@ -125,7 +127,13 @@ export const config: WebdriverIO.Config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: [['allure', {outputDir: 'allure-results'}]],
+    reporters: [['allure', {
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
+        disableMochaHooks: true,
+        outputDir: 'allure-results',
+    }
+    ]],
 
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
@@ -230,7 +238,10 @@ export const config: WebdriverIO.Config = {
      */
     afterTest: async function(test, context, { error, result, duration, passed, retries }) {
         if (!passed) {
+            await Reporter.closeStep(true);
             await browser.takeScreenshot();
+        } else if (passed) {
+            await Reporter.closeStep(false);
         }
     },
 
