@@ -25,7 +25,6 @@ class RegistrationPage {
         await this.clickRegistration();
         await this.fillRegistrationForm(client);
         await this.clickConfirmRegistration();
-        await this.validateRegistrationSuccess();
     }
 
     private async fillRegistrationForm(client: IClientInfo) {
@@ -109,7 +108,7 @@ class RegistrationPage {
         await BrowserUtils.click(confirmRegisterButton);
     }
 
-    private async validateRegistrationSuccess():Promise<void> {
+    async validateRegistrationSuccess():Promise<void> {
         await Reporter.debug('Waiting for success notification to appear')
         await BrowserUtils.waitForDisplayed(registrationSuccess);
     }

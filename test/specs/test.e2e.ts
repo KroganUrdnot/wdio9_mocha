@@ -8,5 +8,6 @@ describe('Register new client', () => {
     it('should fill registration form and validate success', async () => {
         await LandingPage.open(paraBank);
         await RegistrationPage.registerNewClient(ClientInfo);
+        await RegistrationPage.validateRegistrationSuccess();
     })
 })
